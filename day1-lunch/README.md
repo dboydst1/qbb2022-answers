@@ -53,3 +53,5 @@ sort -k 2 integrated_call_samples.panel | cut -f 2,3 | uniq -c | grep AFR
  #34 rows
  #6 times per row
  
+ #I would cut out the specific line, cut out the specific AFR_AF section from the info line. I would then add those values together
+ 
