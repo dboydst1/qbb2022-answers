@@ -67,12 +67,36 @@
  bedtools closest -a variants.sorted.bed -b genes.sorted.bed | wc -l
  #There are 10293 variants
  
- bedtools closest -a variants.sorted.bed -b genes.sorted.bed | cut -f 7 | uniq | wc -l
- #There are 731 genes
+ bedtools closest -a variants.sorted.bed -b genes.sorted.bed | cut -f 7 | sort | uniq | wc -l
+ #There are 200 genes
  
- #There are 14.08 variants per genes
+ #There are 51.465 variants per genes
  
  #Exersise 4
+ 
+ bedtools intersect -a H3K27ac.naive_b_cell.GRCh38.bedgraph -b genes.bed -wb | cut -f 8 | sort | uniq > genes_intersecting_H3K27ac_b_cell.txt #This line finds the intersections of H3K27ac and genes, it cuts out the column showing the gene name, sorts it, then determines how many uniqe genes there are, and finally saves it to a file
+
+ bedtools intersect -a H3K9me3.naive_b_cell.GRCh38.bedgraph -b genes.bed -wb | cut -f 8 | sort | uniq > genes_intersecting_H3K9me3_b_cell.txt #This file does the same thing as the last one, but with the H3K9me3 file
+
+ grep -v -f genes_intersecting_H3K27ac_b_cell.txt genes_intersecting_H3K9me3_b_cell.txt #This line identifies the overlaps? this line doesn't make a lot of sense to me.
+ 
+ #!/bin/bash
+
+ #USAGE: bash exercise4.sh
+
+ #Goal: report any genes that uniquely intersect with H3K27ac but never intersect with H3K9me3 within naive B cells.
+
+ bedtools intersect -a H3K27ac.naive_b_cell.GRCh38.bedgraph -b genes.bed -wb | cut -f 8 | sort | uniq > genes_intersecting_H3K27ac_b_cell.txt
+
+ bedtools intersect -a H3K9me3.naive_b_cell.GRCh38.bedgraph -b genes.bed -wb | cut -f 8 | sort | uniq > genes_intersecting_H3K9me3_b_cell.txt
+
+ grep -v -f genes_intersecting_H3K9me3_b_cell.txt genes_intersecting_H3K27ac_b_cell.txt #The logic error was in the file order here.
+ 
+ #the syntax error was in the file directory. this was corrected by copying the files to the working directory.
+ 
+ #The output was CRYAA
+ 
+ #Exercise 5
  
  
  
