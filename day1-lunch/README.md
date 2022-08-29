@@ -39,3 +39,5 @@ sort -k 2 integrated_call_samples.panel | cut -f 2,3 | uniq -c | grep AFR
  #206 YRI	AFR
 
  #I would use the same function, but change AFR to the name of the other groups
+ 
+ cut -f 1-8,13 random_snippet.vcf > HG100100.vcf
