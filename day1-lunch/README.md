@@ -30,7 +30,7 @@
  
 sort -k 2 integrated_call_samples.panel | cut -f 2,3 | uniq -c | grep AFR
 
- # 123 ACB	AFR
+ #123 ACB	AFR
  #112 ASW	AFR
  #173 ESN	AFR
  #180 GWD	AFR
