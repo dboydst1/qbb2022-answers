@@ -96,8 +96,6 @@
  
  #The output was CRYAA
  
- #Exercise 5
- 
  
  
  
