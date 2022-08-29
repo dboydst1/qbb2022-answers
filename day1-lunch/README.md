@@ -41,3 +41,15 @@ sort -k 2 integrated_call_samples.panel | cut -f 2,3 | uniq -c | grep AFR
  #I would use the same function, but change AFR to the name of the other groups
  
  cut -f 1-8,13 random_snippet.vcf > HG100100.vcf
+ cut -f 9 HG100100.vcf | sort | uniq -c
+ 
+ #9514 0|0
+ #127 0|1
+ #178 1|0
+ #181 1|1
+ 
+ cut -f 8 HG100100.vcf | sort | grep AF=1 | wc
+ 
+ #34 rows
+ #6 times per row
+ 
