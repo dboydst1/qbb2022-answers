@@ -1,7 +1,6 @@
- # QBB2022 - Day 2 - Lunch Exercises Submission
- 
- #!/usr/bin/env python3
+# QBB2022 - Day 2 - Lunch Exercises Submission
 
+#!/usr/bin/env python3
 import sys
 
 def parse_bed(fname):
@@ -19,30 +18,36 @@ def parse_bed(fname):
         if fieldN < 3:
             print(f"Line {i} appears malformed", file=sys.stderr)
             continue
-        if fieldN == 10 | fieldN == 11:
+        if fieldN == 10 | fieldN == 11: #This line makes sure that bed files with 10 or 11 fields are not run.
             print(f"Line {i} appears malformed", file=sys.stderr)
-        if fieldN == 9:
-            fields[i] = fields[i].split(",")
-            for l in fields:
-                flength = len(fields[l])
-                if flength != 3:
-                    print(f"Line {i} appears malformed", file=sys.stderr)
-                if flength == 3:
-                    fields[l] = [ int(x) for x in fields[l] ]
-        if fieldN == 12:
-            for k in range(min(len(field_types), len(fields))):
-                if k == 8:
-                    fields[k] = fields[k].split(",")
-                if k == 10 | k == 11:
-                    fields[k] = fields[k].rstrip(',').split(',')
+        if fieldN == 9: #For bed 9 files
+            for k in range(min(len(field_types), len(fields))): #for each iteration
+				if k == 8 #if it is the 8th field
+					fields[k] = fields[k].split(",") #remove comma delimited fields
+                	flength = len(fields[l]) #save field length
+                	if flength != 3: #if field does not = 3
+                    	print(f"Line {i} appears malformed", file=sys.stderr) #Error
+                	if flength == 3: #if field does = 3
+                    	fields[l] = [ int(x) for x in fields[l] ] #convert field to integer to ensure it is an integer
+        if fieldN == 12: #if a bed12 file
+            for k in range(min(len(field_types), len(fields))): #for each iteration
+                if k == 8: #if its the 8th field
+                    fields[k] = fields[k].split(",") #remove comma delimited
+                if k == 10: #if its the 10th field
+                    fields[k] = fields[k].rstrip(",").split(",") #remove comma delimited and the extra comma
+                if k == 11: #if its the 11th field
+                    fields[k] = fields[k].rstrip(",").split(",") #remove comma delimited and the extra comma
             try:
-                assert fields[9] == len(fields[10])
-                assert fields[9] == len(fields[11])
+                f9 = int(fields[9]) #save value as int
+                f10 = int(len(fields[10])) #save length as int
+                f11 = int(len(fields[11])) #save length as int
+                assert f9 == f10 #ensure these equal
+                assert f10 == f11 #ensure these equal
             except:
-                print(f"Assert failed", file=sys.stderr)
-                print(fields[9])
-                print(len(fields[10]))
-                print(len(fields[11]))
+                print(f"Assert failed", file=sys.stderr) #error
+                print(fields[9]) #sanity value
+                print(len(fields[10])) #sanity value
+                print(len(fields[11])) #sanity value
         try:
             for j in range(min(len(field_types), len(fields))):
                 fields[j] = field_types[j](fields[j])
