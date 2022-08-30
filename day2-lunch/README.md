@@ -1,6 +1,9 @@
 # QBB2022 - Day 2 - Lunch Exercises Submission
 
+#Exercise 1
+
 #!/usr/bin/env python3
+
 import sys
 
 def parse_bed(fname):
@@ -9,7 +12,8 @@ def parse_bed(fname):
     except:
         raise FileNotFoundError("That file doesn’t appear to exist")
     bed = []
-    field_types = [str, int, int, str, float, str, int, int, 'place1', 'place2', 'place3', 'place4']
+    #field_types = [str, int, int, str, float, str, int, int, 'place1', 'place2', 'place3', 'place4']
+    field_types = [str, int, int, str, float, str, int, int, str, int, str, str]
     for i, line in enumerate(fs):
         if line.startswith("#"):
             continue
@@ -18,44 +22,66 @@ def parse_bed(fname):
         if fieldN < 3:
             print(f"Line {i} appears malformed", file=sys.stderr)
             continue
-        if fieldN == 10 | fieldN == 11: #This line makes sure that bed files with 10 or 11 fields are not run.
+        if fieldN == 10 | fieldN == 11:
             print(f"Line {i} appears malformed", file=sys.stderr)
-        if fieldN == 9: #For bed 9 files
-            fields[i] = fields[i].split(",") #remove comma delimited
-            for l in fields: #for each field
-                flength = len(fields[l]) #determine length of field
-                if flength != 3: #if field does not equal 3
-                    print(f"Line {i} appears malformed", file=sys.stderr) #Error
-                if flength == 3: #if field equals 3
-                    fields[l] = [ int(x) for x in fields[l] ] #Ensure integer
-        if fieldN == 12: #if a bed12 file
-            for k in range(min(len(field_types), len(fields))): #for each iteration
-                if k == 8: #if its the 8th field
-                    fields[k] = fields[k].split(",") #remove comma delimited
-                if k == 10: #if its the 10th field
-                    fields[k] = fields[k].rstrip(",").split(",") #remove comma delimited and the extra comma
-                if k == 11: #if its the 11th field
-                    fields[k] = fields[k].rstrip(",").split(",") #remove comma delimited and the extra comma
+            continue
+        if fieldN == 9:
+            fields[i] = fields[i].split(",")
+            for l in fields:
+                flength = len(fields[l])
+                if flength != 3:
+                    print(f"Line {i} appears malformed", file=sys.stderr)
+                if flength == 3:
+                    fields[l] = [ int(x) for x in fields[l] ]
+        if fieldN == 12:
+            for k in range(min(len(field_types), len(fields))):
+                if k == 8:
+                    fields[k] = fields[k].split(",")
+                if k == 10:
+                    fields[k] = fields[k].rstrip(",").split(",")
+                if k == 11:
+                    fields[k] = fields[k].rstrip(",").split(",")
             try:
-                f9 = int(fields[9]) #save value as int
-                f10 = int(len(fields[10])) #save length as int
-                f11 = int(len(fields[11])) #save length as int
-                assert f9 == f10 #ensure these equal
-                assert f10 == f11 #ensure these equal
+                f9 = int(fields[9])
+                f10 = int(len(fields[10]))
+                f11 = int(len(fields[11]))
+                assert f9 == f10
+                assert f10 == f11
             except:
-                print(f"Assert failed", file=sys.stderr) #error
-                print(fields[9]) #sanity value
-                print(len(fields[10])) #sanity value
-                print(len(fields[11])) #sanity value
+                print(f"Assert failed", file=sys.stderr)
+                print(fields[9])
+                print(len(fields[10]))
+                print(len(fields[11]))
         try:
             for j in range(min(len(field_types), len(fields))):
                 fields[j] = field_types[j](fields[j])
-            bed.append(fields)
         except:
             print(f"Line {i} appears malformed", file=sys.stderr)
-        fs.close()
-        return bed
+        bed.append(fields)
+    fs.close()
+    return bed
 
 if __name__ == "__main__":
     fname = sys.argv[1]
     bed = parse_bed(fname)
+    print(bed)
+	
+	
+	
+#Exercise 2
+
+import sys
+import statistics
+
+import bed_parser
+fname = sys.argv[1]
+bed = bed_parser.parse_bed(fname)
+medvals = []
+lengthbed = len(bed)
+for i in range(0,lengthbed):
+    medvals.append(int(bed[i][9]))
+
+print(statistics.median(medvals))
+
+ #There are 3 malformed lines
+ #The median is 4
