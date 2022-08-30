@@ -21,14 +21,13 @@ def parse_bed(fname):
         if fieldN == 10 | fieldN == 11: #This line makes sure that bed files with 10 or 11 fields are not run.
             print(f"Line {i} appears malformed", file=sys.stderr)
         if fieldN == 9: #For bed 9 files
-            for k in range(min(len(field_types), len(fields))): #for each iteration
-				if k == 8 #if it is the 8th field
-					fields[k] = fields[k].split(",") #remove comma delimited fields
-                	flength = len(fields[l]) #save field length
-                	if flength != 3: #if field does not = 3
-                    	print(f"Line {i} appears malformed", file=sys.stderr) #Error
-                	if flength == 3: #if field does = 3
-                    	fields[l] = [ int(x) for x in fields[l] ] #convert field to integer to ensure it is an integer
+            fields[i] = fields[i].split(",") #remove comma delimited
+            for l in fields: #for each field
+                flength = len(fields[l]) #determine length of field
+                if flength != 3: #if field does not equal 3
+                    print(f"Line {i} appears malformed", file=sys.stderr) #Error
+                if flength == 3: #if field equals 3
+                    fields[l] = [ int(x) for x in fields[l] ] #Ensure integer
         if fieldN == 12: #if a bed12 file
             for k in range(min(len(field_types), len(fields))): #for each iteration
                 if k == 8: #if its the 8th field
