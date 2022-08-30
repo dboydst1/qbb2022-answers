@@ -104,4 +104,21 @@
      vcf = parse_vcf(fname)
      for i in range(10):
          print(vcf[i]) #print out the first 10 lines of VCF
+		 
+		 
+#Exercise 2
+
+ #I tried :'(
+
+import sys
+
+import vcfParser
+
+fname = sys.argv[1]
+vcf = vcfParser.parse_vcf(fname)
+print(vcf)
+
+fname1 = sys.argv[2]
+vcf1 = vcfParser.parse_vcf(fname)
+print(vcf1)
  
