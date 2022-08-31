@@ -117,8 +117,9 @@ import vcfParser
 fname = sys.argv[1]
 vcf = vcfParser.parse_vcf(fname)
 IDs = []
+IDpos = {}
 lengthvcf = len(vcf)
 for i in range(0,lengthvcf):
-    IDs.append(vcf[i][2])
-print(vcf)
- 
+    IDpos[vcf[i][1]] = vcf[i][2]
+
+print(IDpos)
