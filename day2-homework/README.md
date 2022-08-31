@@ -1,5 +1,7 @@
  # QBB2022 - Day 2 - Homework Excercises Submission
  
+ #as it turns out, this is the broken vcf before I did a git pull, but here is my annotation of it:
+ 
  #!/usr/bin/env python
 
  import sys #importing sys for usability
@@ -108,17 +110,15 @@
 		 
 #Exercise 2
 
- #I tried :'(
-
 import sys
 
 import vcfParser
 
 fname = sys.argv[1]
 vcf = vcfParser.parse_vcf(fname)
+IDs = []
+lengthvcf = len(vcf)
+for i in range(0,lengthvcf):
+    IDs.append(vcf[i][2])
 print(vcf)
-
-fname1 = sys.argv[2]
-vcf1 = vcfParser.parse_vcf(fname)
-print(vcf1)
  
