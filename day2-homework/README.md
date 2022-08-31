@@ -129,9 +129,7 @@ for i in range(0,lengthvcf1): #for each item in the list
     try: #try
         vcf1[i][2] = IDpos[vcf1[i][1]] #saving the ref for the matching position
     except: #if not
-        print(f"line {i} does not have a match") #Print this error
         counter = counter + 1 #add one to the counter
-print(vcf1) #print out the vcf1 with the added ref
 print(f"There are {counter} unmached entries") #print out the number of entries without a match
 
  #There are 100 entries that do not have a match
