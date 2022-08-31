@@ -117,19 +117,17 @@ import vcfParser #importing vcfParser function
 fname = sys.argv[1] #save file name
 vcf = vcfParser.parse_vcf(fname) #run vcfParser on file
 IDpos = {} #Initialize dictionary
-lengthvcf = len(vcf) #save the length of the vcf file list
-for i in range(0,lengthvcf): #for each item in the list
+for i in range(0,len(vcf)): #for each item in the list
     IDpos[vcf[i][1]] = vcf[i][2] #add the position=ref to the dictionary
 
 fname1 = sys.argv[2] #add the second file
 vcf1 = vcfParser.parse_vcf(fname1) #run vcfParser on file
-lengthvcf1 = len(vcf1) #save the length of the vcf file list
 counter = 0 #initialize counter
-for i in range(0,lengthvcf1): #for each item in the list
+for i in range(0,len(vcf1): #for each item in the list
     try: #try
         vcf1[i][2] = IDpos[vcf1[i][1]] #saving the ref for the matching position
     except: #if not
-        counter = counter + 1 #add one to the counter
+        counter += 1 #add one to the counter
 print(f"There are {counter} unmached entries") #print out the number of entries without a match
 
  #There are 100 entries that do not have a match
