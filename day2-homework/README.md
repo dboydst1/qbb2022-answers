@@ -110,31 +110,31 @@
 		 
 #Exercise 2
 
-import sys
+import sys #importing sys for useability
 
-import vcfParser
+import vcfParser #importing vcfParser function
 
-fname = sys.argv[1]
-vcf = vcfParser.parse_vcf(fname)
-IDpos = {}
-lengthvcf = len(vcf)
-for i in range(0,lengthvcf):
-    IDpos[vcf[i][1]] = vcf[i][2]
+fname = sys.argv[1] #save file name
+vcf = vcfParser.parse_vcf(fname) #run vcfParser on file
+IDpos = {} #Initialize dictionary
+lengthvcf = len(vcf) #save the length of the vcf file list
+for i in range(0,lengthvcf): #for each item in the list
+    IDpos[vcf[i][1]] = vcf[i][2] #add the position=ref to the dictionary
 
-fname1 = sys.argv[2]
-vcf1 = vcfParser.parse_vcf(fname1)
-IDs = []
-lengthvcf1 = len(vcf1)
-for i in range(0,lengthvcf1):
-    IDs.append(vcf1[i][1])
-counter = 0
-for i in range(0,lengthvcf1):
-    try:
-        vcf1[i][2] = IDpos[vcf1[i][1]]
-    except:
-        print(f"line {i} does not have a match")
-        counter = counter + 1
-print(vcf1)
-print (counter)
+fname1 = sys.argv[2] #add the second file
+vcf1 = vcfParser.parse_vcf(fname1) #run vcfParser on file
+IDs = [] #make a list
+lengthvcf1 = len(vcf1) #save the length of the vcf file list
+for i in range(0,lengthvcf1): #for each item in the list
+    IDs.append(vcf1[i][1]) #append the ID to list
+counter = 0 #initialize counter
+for i in range(0,lengthvcf1): #for each item in the list
+    try: #try
+        vcf1[i][2] = IDpos[vcf1[i][1]] #saving the ref for the matching position
+    except: #if not
+        print(f"line {i} does not have a match") #Print this error
+        counter = counter + 1 #add one to the counter
+print(vcf1) #print out the vcf1 with the added ref
+print (counter) #print out the number of entries without a match
 
  #There are 100 entries that do not have a match
