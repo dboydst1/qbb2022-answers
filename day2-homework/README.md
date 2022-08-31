@@ -116,10 +116,25 @@ import vcfParser
 
 fname = sys.argv[1]
 vcf = vcfParser.parse_vcf(fname)
-IDs = []
 IDpos = {}
 lengthvcf = len(vcf)
 for i in range(0,lengthvcf):
     IDpos[vcf[i][1]] = vcf[i][2]
 
-print(IDpos)
+fname1 = sys.argv[2]
+vcf1 = vcfParser.parse_vcf(fname1)
+IDs = []
+lengthvcf1 = len(vcf1)
+for i in range(0,lengthvcf1):
+    IDs.append(vcf1[i][1])
+counter = 0
+for i in range(0,lengthvcf1):
+    try:
+        vcf1[i][2] = IDpos[vcf1[i][1]]
+    except:
+        print(f"line {i} does not have a match")
+        counter = counter + 1
+print(vcf1)
+print (counter)
+
+ #There are 100 entries that do not have a match
