@@ -123,10 +123,7 @@ for i in range(0,lengthvcf): #for each item in the list
 
 fname1 = sys.argv[2] #add the second file
 vcf1 = vcfParser.parse_vcf(fname1) #run vcfParser on file
-IDs = [] #make a list
 lengthvcf1 = len(vcf1) #save the length of the vcf file list
-for i in range(0,lengthvcf1): #for each item in the list
-    IDs.append(vcf1[i][1]) #append the ID to list
 counter = 0 #initialize counter
 for i in range(0,lengthvcf1): #for each item in the list
     try: #try
