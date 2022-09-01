@@ -38,11 +38,14 @@
  #			--searches through protein types and makes a bed file for them
  #			--finds Exons and makes a bed file for it
  # 3. Subsets a .vcf for each feature
- #		--
+ #		--runs bedtools to subset based on type and produce a .vcf from the bed file
  # 4. Plots Allele Count histogram for each .vcf
  #		--Runs plot_vcf_ac.py to plot each .vcf
+ #			--opens the vcf
+ #			--iterates lines from the files and saves the Allele count value onto a list
+ #			--lists are plotted onto histograms
  
  
- #Output
+ #Output: #produces a .bed, a .vcf, and a .png for each file
  
  
