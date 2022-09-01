@@ -19,4 +19,6 @@
  
  #Exercise 2
  
+ #The graphs are all very skewed to the left, with processed pseudogenes having a slight uptick toward the center of the x.
+ 
  
