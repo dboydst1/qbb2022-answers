@@ -21,4 +21,22 @@
  
  #The graphs are all very skewed to the left, with processed pseudogenes having a slight uptick toward the center of the x.
  
+ #Exercise 3
  
+ #Synopsis: This bash function (do_all.sh) will take a vcf and gtf file, parse through the information, and output a histogram showing the allele counts for differing gene types. This is useful for comparing the trends of allele counts for different gene types.
+ 
+ #Usage: bash do_all.sh [file.vcf] [file.gtf]
+ 
+ #Dependencies: requires bedtools and matplotlib
+ 
+ #Description: 
+ # 1. Loads VCF and GTF files
+ # 2. Creates .bed files for features of interest
+ # 		--Runs subset_regions.sh on the GTF file
+ #			--bash script
+ #			--uses grep to separate out a specfific chromosome
+ # 3. Subsets a .vcf for each feature
+ # 4. Plots Allele Count histogram for each .vcf
+ 
+ 
+ #Output
