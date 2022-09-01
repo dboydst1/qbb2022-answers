@@ -49,4 +49,6 @@
  
  #This relates to the preprint in that it is trying to determine if there is a bias in certain genes based on sperm survivability; so one gene may have a .60 chance and another may have .40. The issue with proving this is that families are generally small, so sample sizes of ~5 are difficult for determining how powerful the effect is/if the effect is real. This function addresses the probability and the power issue.
  
+ #This study focuses on "Transmission Distortion (TD)", which is the effect (based on genes that don't follow Mendel's Law of Segregation) that a specific gene does not have a 50/50 chance of inheritance. This study is looking for TD in Homo sapiens.
  
+ #The simulation we ran and the simulation they ran in S13 is very similar, and displays in a heatmap almost identically. This matches the x = "number of simulated thing", y = "probability", and z = "Power". Number of flips in the iteration matches number of sperm. Both use a binomial test because it is looking at data that is either "success" or "fail".
