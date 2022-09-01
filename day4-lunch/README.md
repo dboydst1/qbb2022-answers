@@ -34,9 +34,14 @@
  # 2. Creates .bed files for features of interest
  # 		--Runs subset_regions.sh on the GTF file
  #			--bash script
- #			--uses grep to separate out a specfific chromosome
+ #			--uses grep to separate out a specfific chromosome and save it in a gtf file
+ #			--searches through protein types and makes a bed file for them
+ #			--finds Exons and makes a bed file for it
  # 3. Subsets a .vcf for each feature
+ #		--
  # 4. Plots Allele Count histogram for each .vcf
  
  
  #Output
+ 
+ 
