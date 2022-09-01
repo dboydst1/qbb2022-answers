@@ -40,6 +40,7 @@
  # 3. Subsets a .vcf for each feature
  #		--
  # 4. Plots Allele Count histogram for each .vcf
+ #		--Runs plot_vcf_ac.py to plot each .vcf
  
  
  #Output
