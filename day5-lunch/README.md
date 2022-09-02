@@ -43,3 +43,37 @@ join combined.txt ages.txt > final.txt
  ax.set_title("Paternally Inherited de novo Mutations with Age")
  plt.show()
  
+ model = smf.ols(formula = "Mother_count ~ 1 + Mother_age", data = df)
+ results = model.fit()
+ print(results.summary())
+
+ #the relationship is significant, with a p value of < 0.001. The size of this relationship is 0.3776 years per de novo mutation.
+ 
+ model = smf.ols(formula = "Father_count ~ 1 + Father_age", data = df)
+ results = model.fit()
+ print(results.summary())
+
+ #the relationship is significant, with a p value of < 0.001. The size of this relationship is 1.3538 years per de novo mutation.
+ 
+ fig, ax = plt.subplots()
+ ax.hist(df["Mother_count"], alpha = 0.5, label = "Mother")
+ ax.hist(df["Father_count"], alpha = 0.5, label = "Father")
+ ax.set_xlabel("de novo Mutation")
+ ax.set_ylabel("Count of Inherited de novo Mutations")
+ ax.set_title("Inherited de novo Mutations by Parent")
+ ax.legend()
+ plt.savefig("ex2_c.png")
+ plt.show()
+ 
+ print(stats.ttest_ind(df["Mother_count"], df["Father_count"]))
+
+ # the pvalue is 2.2e-264, so there is a significant difference between the number of inherited de novo mutations and mother/father
+ 
+ 
+ model = smf.ols(formula = "Father_count ~ 1 + Father_age", data = df)
+ results = model.fit()
+ print(results.summary())
+
+ print(10.3263 + (1.3538 * 50.5))
+
+ #This model predicts 78.69 mutations for a proband with a paternal age of 50.5 at the time of birth
