@@ -1,0 +1,3 @@
+# Feedback day3-homework
+
+All of your code looks good and your plots appear to be correct. Only 2 bits of feedback. First, it would be a good idea to include the code that you use to match the metadata to the PCA values. Always a good idea to show your work. Second, it would be handy to play around with the formatting for plot ex3_a.png. The legend makes viewing the data quite difficult. I would search for a way to place the legend outside the plot field rather than inside. Of course this is just fiddley stuff. Keep up the good work!
