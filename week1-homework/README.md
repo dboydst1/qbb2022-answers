@@ -9,3 +9,21 @@
  
  # Question 1.4
  # In this run, the genome had 25 bases with 0x coverage, where the poisson distribution predicted no bases with 0x coverage. In this case, the actual coverage was slightly worse than what the poisson distribution predicts.
+ 
+ # Question 2.1
+ # There are 4 contigs
+ 
+ grep -c '>'contigs.fasta
+ 
+ # Question 2.2
+ # length 105847 + 47863 + 41351 + 39440 = 234,501 bp
+ 
+ less -S contigs.fasta
+ 
+ # Question 2.3
+ # length 105847 bp
+ 
+ # Question 2.4
+ # N50 = 47863 bp
+ 
+ 
