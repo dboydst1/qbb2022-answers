@@ -10,20 +10,47 @@
  # Question 1.4
  # In this run, the genome had 25 bases with 0x coverage, where the poisson distribution predicted no bases with 0x coverage. In this case, the actual coverage was slightly worse than what the poisson distribution predicts.
  
+ ~/miniconda3/bin/SPAdes-3.15.5-Darwin/bin/spades.py --pe1-1 frag180.1.fq --pe1-2 frag180.2.fq --mp1-1 jump2k.1.fq --mp1-2 jump2k.2.fq -o asm -t 4 -k 31
+ 
  # Question 2.1
  # There are 4 contigs
  
- grep -c '>'contigs.fasta
+ grep -c '>' contigs.fasta
  
  # Question 2.2
- # length 105847 + 47863 + 41351 + 39440 = 234,501 bp
+ # length 105830 + 47860 + 41351 + 39426 = 234,497 bp
  
  less -S contigs.fasta
  
  # Question 2.3
- # length 105847 bp
+ # length 105830 bp
  
  # Question 2.4
- # N50 = 47863 bp
+ # N50 = 47860 bp
+
+ dnadiff ref.fa scafforlds.fasta
+ less -S out.report
+ 
+ # Question 3.1
+ # Avg identity of ref and assembly is 99.98
+ 
+ show-coords out.delta
+ 
+ # Question 3.2
+ # Longest length is 20700
+ 
+ less -S out.report
+ 
+ # Question 3.3
+ # There is one insertion and no deletions
+ 
+ # Question 4.1
+ # The position of insertion is at 
+ 
+ # Question 4.2
+ # The novel insertion is 712 bp long
+ 
+ # Question 4.3
+ 
  
  
