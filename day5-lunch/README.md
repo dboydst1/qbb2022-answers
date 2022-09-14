@@ -47,13 +47,13 @@ join combined.txt ages.txt > final.txt
  results = model.fit()
  print(results.summary())
 
- #the relationship is significant, with a p value of < 0.001. The size of this relationship is 0.3776 years per de novo mutation.
+ #the relationship is significant, with a p value of < 0.001. The size of this relationship is 0.3776 de novo mutations per year.
  
  model = smf.ols(formula = "Father_count ~ 1 + Father_age", data = df)
  results = model.fit()
  print(results.summary())
 
- #the relationship is significant, with a p value of < 0.001. The size of this relationship is 1.3538 years per de novo mutation.
+ #the relationship is significant, with a p value of < 0.001. The size of this relationship is 1.3538 de novo mutations per year.
  
  fig, ax = plt.subplots()
  ax.hist(df["Mother_count"], alpha = 0.5, label = "Mother")
