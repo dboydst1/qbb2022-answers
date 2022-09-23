@@ -3,22 +3,31 @@
 import sys
 from fasta import readFASTA
 import numpy as np
+import csv
+
+
 
 # sequence1 = 'TGTTACGG'
 # sequence2 = 'GGTTGACTA'
 
 filename = sys.argv[1]
 
-scoring_matrix = np.loadtxt(sys.argv[2], usecols=range(5), dtype = 'str')
+with open(filename) as f:
+    reader = csv.reader(f, delimiter=' ')
+    first_row = next(reader)
+    num_cols = len(first_row)
+
+scoring_matrix = np.loadtxt(sys.argv[2], usecols=range(num_cols), dtype = 'str')
 print(scoring_matrix)
 
+input_sequences = readFASTA(open(filename))
 
-# for i, item in enumerate(scoring_matrix):
-#     print(item)
-#     print(scoring_matrix[0,0])
-    # for j in item:
-#        print(j)
-#        if j == item[0:range(scoring_matrix)][0]
+seq1_id, sequence1 = input_sequences[0]
+seq2_id, sequence2 = input_sequences[1]
+
+
+# sequence1 = 'TACGATTA'
+# sequence2 = 'ATTAACTTA'
 
 input_sequences = readFASTA(open(filename))
 
@@ -27,18 +36,18 @@ seq2_id, sequence2 = input_sequences[1]
 
 F_matrix = np.zeros((len(sequence1)+1, len(sequence2)+1))
 
-sequence1 = 'TACGATTA'
-sequence2 = 'ATTAACTTA'
-
 gap_penalty = float(sys.argv[3])
 
-F_matrix = np.zeros((len(sequence1)+1, len(sequence2)+1))
+F_matrix = np.zeros((len(sequence1)+1, len(sequence2)+1), int)
+Traceback = np.zeros((len(sequence1)+1, len(sequence2)+1), int)
 
 for i in range(len(sequence1)+1):
-	F_matrix[i,0] = i*gap_penalty
+    F_matrix[i,0] = i*gap_penalty
+    Traceback[i,0] = 1
 
 for j in range(len(sequence2)+1):
-	F_matrix[0,j] = j*gap_penalty
+    F_matrix[0,j]=j*gap_penalty
+    Traceback[0,j] = 3
 
 orderlist = scoring_matrix[0]
 print(orderlist)
@@ -49,50 +58,75 @@ for i in range(1, len(sequence1)+1): # loop through rows
         if sequence1[i-1] == sequence2[j-1]: # if sequence1 and sequence2 match at positions i and j, respectively...
             for  k, item in enumerate(orderlist):
                 if sequence1[i-1] == item:
-                    match_score = float(scoring_matrix[k,k])
+                    match_score = int(scoring_matrix[k,k])
                     d = F_matrix[i-1, j-1] + match_score
         else: # if sequence1 and sequence2 don't match at those positions...
             for k, item in enumerate(orderlist):
                 if sequence1[i-1] == item:
                     for o, thing in enumerate(orderlist):
                         if sequence2[j-1] == thing:
-                            mismatch_score = float(scoring_matrix[k,o])
+                            mismatch_score = int(scoring_matrix[k,o])
                             d = F_matrix[i-1, j-1] + mismatch_score
         h = F_matrix[i,j-1] + gap_penalty
         v = F_matrix[i-1,j] + gap_penalty
-
         F_matrix[i,j] = max(d,h,v)
+        if d>v and d>h:
+            Traceback[i,j]=2
+        elif h>v and h>d:
+            Traceback[i,j]=3
+        elif v>h and v>d:
+            Traceback[i,j]=1
+        else:
+            Traceback[i,j]=5
+        if int(Traceback[i,j]) == 5:
+            if d==v or d==h:
+                Traceback[i,j]=2
+            elif v==h:
+                Traceback[i,j]=3
 print(F_matrix)
+print(Traceback)
 
-q = max(len(sequence1), len(sequence2))
-print(q)
 seq1align = []
 seq2align = []
-while q >= 0:
-    if q == max(len(sequence1), len(sequence2)):
-        x = F_matrix.shape[1]-1
-        y = F_matrix.shape[0]-1
-        if F_matrix[y,x] >= min(F_matrix[y,x-1], F_matrix[y-1,x]):
-            seq1align.append(sequence1[y-1])
-            seq2align.append(sequence2[x-1])
-    # elif len(sequence1) == len(sequence2):
-#         if F_matrix[q,q]
-#     elif len(sequence1) > len(sequence2):
-#     elif len(sequence1) < len(sequence2):
-    q -= 1
 
+a = F_matrix.shape[0]-1
+b = F_matrix.shape[1]-1
 
-# for row_index in range(scoring_matrix.shape[0]): # The number of rows is the first value in .shape
-#     for col_index in range(scoring_matrix.shape[1]): # The number of columns is the second value in .shape
-#         print(scoring_matrix[row_index, col_index])
-        
-#
-# filepath = sys.argv[4]
+alignment_score=F_matrix[a,b]
 
-input_sequences = readFASTA(open(filename))
+seq1gaps = 0
+seq2gaps = 0
 
-seq1_id, sequence1 = input_sequences[0]
-seq2_id, sequence2 = input_sequences[1]
+while a+b>0:
+    if int(Traceback[a,b]) == 2:
+        seq1align.append(sequence1[a-1])
+        seq2align.append(sequence2[b-1])
+        a -= 1
+        b -= 1
+    elif int(Traceback[a,b]) == 3:
+        seq1align.append('-')
+        seq2align.append(sequence2[b-1])
+        seq2gaps += 1
+        b -= 1
+    elif int(Traceback[a,b]) == 1:
+        seq1align.append(sequence1[a-1])
+        seq2align.append('-')
+        seq1gaps += 1
+        a -= 1
 
-F_matrix = np.zeros((len(sequence1)+1, len(sequence2)+1))
+seq1align.reverse()
+seq2align.reverse()
+
+str1=''
+alignment1 = str1.join(seq1align)
+alignment2 = str1.join(seq2align)
+print("sequence 1 has " + str(seq1gaps) + " gaps")
+print("sequence 2 has " + str(seq2gaps) + " gaps")
+print("alignment score = " + str(alignment_score))
+print(alignment1)
+print(alignment2)
+
+filepath = open(sys.argv[4],'w')
+filepath.write("Seq_1:"+alignment1+"\n"+"Seq_2:"+alignment2)
+filepath.close()
 
