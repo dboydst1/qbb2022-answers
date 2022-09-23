@@ -1,11 +1,15 @@
 #!/usr/bin/env python
 
+#usage: python globalalign.py file.faa scoring-matrix.txt gap-penalty save-file.txt
+
 import sys
 from fasta import readFASTA
 import numpy as np
 import csv
 
-
+# note that I am aware this code is very inefficient... I'm having some issues with the lab I am rotating in over-working me. Working on fixing it.
+# the code runs with the DNA sequence, and I got it to run with Amino acids and I don't know what I changed, but now it does not run with the AA.
+# I could use some help with that... I think it has something to do with the orderlist and the sequence not being the same type (one is np.str and the other is str).
 
 # sequence1 = 'TGTTACGG'
 # sequence2 = 'GGTTGACTA'
