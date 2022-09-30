@@ -1,0 +1,9 @@
+Really awesome work! Your output looks awesome and alignment stats are what I would have expected. But yes, as you noted, your code as it is right now is 1) inefficent but more importantly 2) doesn't work correctly. Let me address that second point, and then I'll try to give you some pointers for the first issue.
+
+I believe your issue stems mostly from the fact that you appear to be using `sys.argv[1]` as both the scoring matrix and the fasta file (see lines 17-30 in your submitted code). It also looks like `num_cols` is not giving you what you want. The separator in the scoring matrix files aren't single spaces but multiple spaces. What I might suggest is reading just the scores from the scoring matrix into a numpy array, and then building a dictionary that points from each possible character (base or amino acid) to it's index in the scoring matrix. So in the HOXD70 matrix, "A" would be index 0. Then you can use this dictionary to index the scoring matrix. (-1 point, just until you have a working system for the scoring matrix)
+
+This actually leads me into some suggestions about efficiency. When you're constructing your F matrix, and you're checking the scoring matrix, you don't need to loop through the entire scoring matrix until you find the correct cell. Rather,just figure out the current character in each sequence, then use the dictionary I just mentioned to get the coresponding indicies in the scoring matrix, and look up the value you want. Feel free to shoot me (Dylan) a slack message if you need/want help with that.
+
+You also are being slightly inefficient on checking whether d,h, or v is the max. Instead of checking if d is bigger than the other two, than if h is bigger than the other two, and then having a separate conditional for if there's a tie, just check if d is the max, else check if h is, else check if v is. And then that just handles the tie breakers.
+
+9/10
