@@ -18,3 +18,5 @@
  #60
  
  # 40/60 = 66.67%
+ 
+ python scale_bdg.py /R1_directory/NA_treat_pileup.bdg ????
