@@ -19,4 +19,12 @@
  
  # 40/60 = 66.67%
  
- python scale_bdg.py /R1_directory/NA_treat_pileup.bdg ????
+ python scale_bdg.py R1_directory/NA_treat_pileup.bdg R1_directory/Scaled_NA_treat_pileup.bdg
+ python scale_bdg.py D0_H3K27ac_treat.bdg Scaled_D0_H3K27ac_treat.bdg
+ python scale_bdg.py D2_H3K27ac_treat.bdg Scaled_D2_H3K27ac_treat.bdg
+ python scale_bdg.py D2_Klf4_treat.bdg Scaled_D2_Klf4_treat.bdg
+ 
+ awk '{ if ($2 < 35507055 && $3 > 35502055) print $0 }' R1_directory/Scaled_NA_treat_pileup.bdg > Cropped_Scaled_NA_treat_pileup.bdg
+ awk '{ if ($2 < 35507055 && $3 > 35502055) print $0 }' Scaled_D0_H3K27ac_treat.bdg > Cropped_Scaled_D0_H3K27ac_treat.bdg
+ awk '{ if ($2 < 35507055 && $3 > 35502055) print $0 }' Scaled_D2_H3K27ac_treat.bdg > Cropped_Scaled_D2_H3K27ac_treat.bdg
+ awk '{ if ($2 < 35507055 && $3 > 35502055) print $0 }' Scaled_D2_Klf4_treat.bdg > Cropped_Scaled_D2_Klf4_treat.bdg
