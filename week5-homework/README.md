@@ -28,3 +28,25 @@
  awk '{ if ($2 < 35507055 && $3 > 35502055) print $0 }' Scaled_D0_H3K27ac_treat.bdg > Cropped_Scaled_D0_H3K27ac_treat.bdg
  awk '{ if ($2 < 35507055 && $3 > 35502055) print $0 }' Scaled_D2_H3K27ac_treat.bdg > Cropped_Scaled_D2_H3K27ac_treat.bdg
  awk '{ if ($2 < 35507055 && $3 > 35502055) print $0 }' Scaled_D2_Klf4_treat.bdg > Cropped_Scaled_D2_Klf4_treat.bdg
+ 
+ conda activate meme
+ conda install -c conda-forge openmpi=4.1.4 -y
+ 
+ sort -k 5,5rn Sox2Intersect.bed > Sorted_Sox2Intersect.bed
+ 
+ head -n 300 Sorted_Sox2Intersect.bed > Cut_Sox2Intersect.bed
+ 
+ awk '{ printf "%s:%i-%i\n", $1, $2, $3 }' Cut_Sox2Intersect.bed > Reformat_Sox2Intersect.bed
+ 
+ conda deactivate
+ 
+ samtools faidx -r Reformat_Sox2Intersect.bed mm10.fa > PeakSeq.txt
+ 
+ conda activate meme
+ 
+ meme-chip -maxw 7 PeakSeq.txt
+ 
+ tomtom HOCOMOCOv11_full_MOUSE_mono_meme_format.meme memechip_out/combined.meme
+ 
+ grep -i "sox2" tomtom.tsv >> ../matches.txt
+ grep -i "klf4" tomtom.tsv >> ../matches.txt
