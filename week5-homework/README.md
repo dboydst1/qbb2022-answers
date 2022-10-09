@@ -40,13 +40,15 @@
  
  conda deactivate
  
- samtools faidx -r Reformat_Sox2Intersect.bed mm10.fa > PeakSeq.txt
+ samtools faidx mm10.fa -r Reformat_Sox2Intersect.bed > PeakSeq.txt
  
  conda activate meme
  
  meme-chip -maxw 7 PeakSeq.txt
  
- tomtom HOCOMOCOv11_full_MOUSE_mono_meme_format.meme memechip_out/combined.meme
+ tomtom memechip_out/combined.meme HOCOMOCOv11_full_MOUSE_mono_meme_format.meme
  
- grep -i "sox2" tomtom.tsv >> ../matches.txt
- grep -i "klf4" tomtom.tsv >> ../matches.txt
+ grep -i "sox2" tomtom.tsv >> ../matches2.txt
+ grep -i "klf4" tomtom.tsv >> ../matches2.txt
+ 
+ conda deactivate
