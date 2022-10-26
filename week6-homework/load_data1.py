@@ -51,36 +51,46 @@ def main():
                                        (frags['end'] > end))[0][0]] + 1
     filteredfrags = []
     for i, each in enumerate(frags):
-        if each[3] >= 343067 and each [3] <= 343208:
+        if each[3] > 343067 and each [3] < 343208:
             filteredfrags.append(each)
-    
+    filtdata1 = []
     for i, each in enumerate(data1):
-        each[2] = numpy.log(each[2])
+        if each[1] > 343067 and each [1] < 343208:
+            if each[0] > 343067 and each [0] < 343208:
+                filtdata1.append(each)
+    filtdata2 = []
     for i, each in enumerate(data2):
+        if each[1] > 343067 and each [1] < 343208:
+            if each[0] > 343067 and each [0] < 343208:
+                filtdata2.append(each)
+    
+    for i, each in enumerate(filtdata1):
+        each[2] = numpy.log(each[2])
+    for i, each in enumerate(filtdata2):
         each[2] = numpy.log(each[2])
     
     minimum1 = 10000
-    for i, each in enumerate(data1):
+    for i, each in enumerate(filtdata1):
         if each[2] < minimum1:
             minimum1 = each[2]
-    for i, each in enumerate(data1):
+    for i, each in enumerate(filtdata1):
         each[2] = each[2] - minimum1
     
     minimum2 = 10000
-    for i, each in enumerate(data2):
+    for i, each in enumerate(filtdata2):
         if each[2] < minimum2:
             minimum2 = each[2]
-    for i, each in enumerate(data2):
+    for i, each in enumerate(filtdata2):
         each[2] = each[2] - minimum2
     
     mat = numpy.zeros((140,140))
-    for i, each in enumerate(data1):
+    for i, each in enumerate(filtdata1):
         mat[each[0]-343068,each[1]-343068] = each[2]
         mat[each[1]-343068,each[0]-343068] = each[2]
     
     
     mat2 = numpy.zeros((140,140))
-    for i, each in enumerate(data2):
+    for i, each in enumerate(filtdata2):
         mat2[each[0]-343068,each[1]-343068] = each[2]
         mat2[each[1]-343068,each[0]-343068] = each[2]
     
@@ -113,7 +123,7 @@ def main():
     ax[2].set_title("Differential Map")
     ax[2].axes.xaxis.set_ticklabels([])
     ax[2].axes.yaxis.set_ticklabels([])
-    plt.savefig('subsampled_data.png')
+    plt.savefig('full_data.png')
     plt.show()
     plt.close()
 
