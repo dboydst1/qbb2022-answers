@@ -15,4 +15,4 @@
  # With increased sequencing depth, this resolves some of the noise and strengthens real interactions, showing the highlighted region that was not shown before.
  # The highlighed signal indicates a DNA interaction that occurs in the ddCTCF that does not occur in dCTCF.
  
- 
+ python load_data2.py matrix/dCTCF_full.40000.matrix matrix/40000_bins.bed heatmap.png
