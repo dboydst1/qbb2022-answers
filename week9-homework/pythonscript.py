@@ -6,6 +6,7 @@ import scipy as sp
 import seaborn as sns
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
+import pickle
 
 #Step 0
 
@@ -76,8 +77,6 @@ for l in col_names:
     stages.append(l.split('_')[1])
 
 
-results = []
-alphavals = []
 betavals = []
 pvals = []
 for i in range(x.shape[0]):
@@ -87,11 +86,52 @@ for i in range(x.shape[0]):
     longdf = np.array(list_of_tuples, dtype=[('transcript', 'S11'), ('fpkm', float), ('sex', 'S6'), ('stage', int)])
     results = sm.OLS.from_formula(data = longdf, formula = 'fpkm ~ stage').fit()
     pvals.append(results.pvalues[0])
-    # pvals.append(sm.regression.linear_model.RegressionResults.pvalues(results, results.params))
     betavals.append(results.params[0])
-    # betavals.append(results.params[1])
 
-sm.qqplot(np.array(pvals), line = '45', dist = sp.stats.uniform)
-plt.tight_layout()
-plt.savefig("qqplot.png")
-plt.close()
+# sm.qqplot(np.array(pvals), line = '45', dist = sp.stats.uniform)
+# plt.tight_layout()
+# plt.savefig("qqplot.png")
+# plt.close()
+
+tenperc = sm.stats.multipletests(pvals, alpha = 0.1, method = "fdr_bh")
+tflist = tenperc[0]
+significant = row_names[tflist]
+
+# with open("nosexlist.md", "w") as outfile:
+#     outfile.write("\n".join(significant))
+
+sexbetavals = []
+sexpvals = []
+for i in range(x.shape[0]):
+    list_of_sextuples = []
+    for j in range(len(col_names)):
+        list_of_sextuples.append((row_names[i], x[i,j], sexes[j], stages[j]))
+    longdfsex = np.array(list_of_sextuples, dtype=[('transcript', 'S11'), ('fpkm', float), ('sex', 'S6'), ('stage', int)])
+    sexresults = sm.OLS.from_formula(data = longdfsex, formula = 'fpkm ~ stage + sex').fit()
+    sexpvals.append(sexresults.pvalues[0])
+    sexbetavals.append(sexresults.params[0])
+
+sextenperc = sm.stats.multipletests(sexpvals, alpha = 0.1, method = "fdr_bh")
+sextflist = sextenperc[0]
+sexsignificant = row_names[sextflist]
+
+# with open("sexlist.md", "w") as outfile:
+#     outfile.write("\n".join(sexsignificant))
+
+overlap = set(significant) & set(sexsignificant)
+percent = len(overlap) / len(significant) * 100
+# print(percent)
+
+color = []
+for thing in sextflist:
+	if thing == True:
+		color.append("green")
+	elif thing == False:
+		color.append("black")
+
+fig, ax = plt.subplots()
+ax.scatter(sexbetavals, -np.log10(sexpvals), color = color)
+ax.set_ylabel("-log10(p-values)")
+ax.set_xlabel("beta values")
+ax.set_title("FDR ~ stage + sex")
+fig.savefig("volcano.png")
