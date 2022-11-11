@@ -81,6 +81,5 @@ for i in range(x.shape[0]):
     for j in range(len(col_names)):
         list_of_tuples.append((row_names[i], x[i,j], sexes[j], stages[j]))
     longdf = np.array(list_of_tuples, dtype=[('transcript', 'S11'), ('fpkm', float), ('sex', 'S6'), ('stage', int)])
-    break
-
-print(longdf)
+    result = sm.OLS.from_formula(data = longdf, formula = 'fpkm ~ stage').fit()
+    print(result.params)
