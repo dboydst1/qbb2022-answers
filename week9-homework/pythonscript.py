@@ -76,10 +76,22 @@ for l in col_names:
     stages.append(l.split('_')[1])
 
 
+results = []
+alphavals = []
+betavals = []
+pvals = []
 for i in range(x.shape[0]):
     list_of_tuples = []
     for j in range(len(col_names)):
         list_of_tuples.append((row_names[i], x[i,j], sexes[j], stages[j]))
     longdf = np.array(list_of_tuples, dtype=[('transcript', 'S11'), ('fpkm', float), ('sex', 'S6'), ('stage', int)])
-    result = sm.OLS.from_formula(data = longdf, formula = 'fpkm ~ stage').fit()
-    print(result.params)
+    results = sm.OLS.from_formula(data = longdf, formula = 'fpkm ~ stage').fit()
+    pvals.append(results.pvalues[0])
+    # pvals.append(sm.regression.linear_model.RegressionResults.pvalues(results, results.params))
+    betavals.append(results.params[0])
+    # betavals.append(results.params[1])
+
+sm.qqplot(np.array(pvals), line = '45', dist = sp.stats.uniform)
+plt.tight_layout()
+plt.savefig("qqplot.png")
+plt.close()
